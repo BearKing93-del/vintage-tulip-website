@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Vintage Tulip & Local Merch — Blanchard, OK</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v19.0"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --mauve: #C4849A;
+      --cream: #FDF6EE;
+      --plum: #3D1A2B;
+      --sage: #8BA888;
+      --gold: #D4A853;
+      --plum-light: #5C2E42;
+      --text: #2A1019;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 48px;
+      background: rgba(253, 246, 238, 0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(196, 132, 154, 0.2);
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--plum); letter-spacing: 0.02em; }
+    .nav-logo span { color: var(--mauve); font-style: italic; }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a { font-size: 0.85rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--plum); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--mauve); }
+    .nav-cta { background: var(--plum); color: var(--cream) !important; padding: 10px 22px; border-radius: 30px; transition: background 0.2s !important; }
+    .nav-cta:hover { background: var(--mauve) !important; }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 80px; position: relative; overflow: hidden; }
+    .hero-left { display: flex; flex-direction: column; justify-content: center; padding: 80px 60px 80px 80px; position: relative; z-index: 2; }
+    .hero-eyebrow { font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mauve); font-weight: 600; margin-bottom: 20px; }
+    .hero-headline { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 4.5vw, 5rem); line-height: 1.05; color: var(--plum); margin-bottom: 28px; }
+    .hero-headline em { font-style: italic; color: var(--mauve); }
+    .hero-sub { font-size: 1.05rem; color: var(--plum-light); line-height: 1.7; max-width: 400px; margin-bottom: 44px; font-weight: 300; }
+    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary { background: var(--plum); color: var(--cream); padding: 16px 36px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; text-decoration: none; transition: background 0.25s, transform 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--mauve); transform: translateY(-2px); }
+    .btn-outline { border: 2px solid var(--plum); color: var(--plum); padding: 14px 34px; border-radius: 40px; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em; text-decoration: none; transition: all 0.25s; display: inline-block; }
+    .btn-outline:hover { background: var(--plum); color: var(--cream); }
+
+    .hero-right { background: var(--plum); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .tulip-bg { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0.12; }
+    .tulip-bg svg { width: 85%; height: 85%; animation: tulip-breathe 5s ease-in-out infinite; }
+    @keyframes tulip-breathe { 0%, 100% { transform: scale(1) rotate(-2deg); } 50% { transform: scale(1.04) rotate(2deg); } }
+    @media (prefers-reduced-motion: reduce) { .tulip-bg svg { animation: none; } }
+
+    .hero-card-stack { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 16px; padding: 40px; }
+    .hero-card { background: rgba(253,246,238,0.1); border: 1px solid rgba(253,246,238,0.2); border-radius: 16px; padding: 24px 28px; color: var(--cream); backdrop-filter: blur(4px); transition: transform 0.3s, background 0.3s; cursor: default; }
+    .hero-card:hover { background: rgba(253,246,238,0.18); transform: translateX(-6px); }
+    .hero-card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .hero-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; margin-bottom: 6px; font-weight: 700; }
+    .hero-card p { font-size: 0.83rem; opacity: 0.75; line-height: 1.6; font-weight: 300; }
+
+    /* SLIDESHOW */
+    .slideshow-section { padding: 80px 0; background: var(--plum); overflow: hidden; }
+    .slideshow-header { text-align: center; margin-bottom: 48px; padding: 0 48px; }
+    .slideshow-header .section-label { color: var(--mauve); }
+    .slideshow-header h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--cream); }
+
+    .slideshow-track-wrap { position: relative; }
+    .slideshow-track {
+      display: flex; gap: 20px;
+      transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+      padding: 0 80px;
+    }
+    .slide {
+      flex: 0 0 calc(33.333% - 14px);
+      border-radius: 20px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      position: relative;
+      cursor: pointer;
+    }
+    .slide img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .slide:hover img { transform: scale(1.05); }
+    .slide-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(61,26,43,0.85));
+      color: var(--cream); padding: 32px 20px 18px;
+      font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .slide:hover .slide-caption { opacity: 1; }
+
+    .slideshow-controls { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 36px; padding: 0 48px; }
+    .slide-btn {
+      background: rgba(253,246,238,0.15); border: 1px solid rgba(253,246,238,0.3);
+      color: var(--cream); width: 48px; height: 48px; border-radius: 50%;
+      font-size: 1.2rem; cursor: pointer; transition: background 0.2s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .slide-btn:hover { background: var(--mauve); border-color: var(--mauve); }
+    .slide-dots { display: flex; gap: 8px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(253,246,238,0.3); cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; }
+    .dot.active { background: var(--mauve); transform: scale(1.3); }
+
+    /* SERVICES */
+    .services { padding: 100px 80px; background: var(--cream); }
+    .section-label { font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mauve); font-weight: 600; margin-bottom: 14px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 3rem); color: var(--plum); margin-bottom: 60px; max-width: 520px; line-height: 1.2; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+    .service-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(61,26,43,0.07); transition: transform 0.3s, box-shadow 0.3s; }
+    .service-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(61,26,43,0.14); }
+    .service-img { height: 220px; display: flex; align-items: center; justify-content: center; font-size: 5rem; }
+    .service-img-boutique { background: linear-gradient(135deg, #f3d9e1 0%, #e8b4c4 100%); }
+    .service-img-merch    { background: linear-gradient(135deg, #d4e8d3 0%, #b4d4b3 100%); }
+    .service-img-print    { background: linear-gradient(135deg, #e8d9b4 0%, #d4c08a 100%); }
+    .service-body { padding: 28px; }
+    .service-body h3 { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: var(--plum); margin-bottom: 10px; }
+    .service-body p { font-size: 0.9rem; color: #6b4158; line-height: 1.7; margin-bottom: 20px; }
+    .service-link { font-size: 0.82rem; font-weight: 600; color: var(--mauve); text-decoration: none; letter-spacing: 0.06em; text-transform: uppercase; display: inline-flex; align-items: center; gap: 6px; transition: gap 0.2s; }
+    .service-link:hover { gap: 10px; }
+
+    /* MERCH HIGHLIGHT */
+    .merch-highlight { background: var(--plum); padding: 100px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .merch-highlight .section-label { color: var(--mauve); }
+    .merch-highlight .section-title { color: var(--cream); margin-bottom: 24px; }
+    .merch-desc { color: rgba(253,246,238,0.75); line-height: 1.8; font-size: 1rem; margin-bottom: 36px; font-weight: 300; }
+    .brand-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
+    .brand-tag { background: rgba(253,246,238,0.12); border: 1px solid rgba(253,246,238,0.25); color: var(--cream); padding: 8px 18px; border-radius: 30px; font-size: 0.8rem; letter-spacing: 0.05em; }
+    .merch-visual { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; height: 420px; }
+    .merch-tile { border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; background: rgba(253,246,238,0.08); border: 1px solid rgba(253,246,238,0.15); transition: background 0.3s; }
+    .merch-tile:hover { background: rgba(253,246,238,0.16); }
+    .merch-tile.tall { grid-row: span 2; font-size: 5rem; }
+
+    /* PRINT SHOP */
+    .print-shop { padding: 100px 80px; background: var(--cream); }
+    .print-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .print-visual { background: linear-gradient(160deg, #f3d9e1 0%, #e0c4ce 50%, #d4a0b4 100%); border-radius: 24px; height: 460px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .print-visual-icon { font-size: 7rem; z-index: 2; }
+    .print-visual::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 70%, rgba(196,132,154,0.4) 0%, transparent 60%); }
+    .process-steps { display: flex; flex-direction: column; gap: 28px; margin-bottom: 40px; }
+    .step { display: flex; gap: 20px; align-items: flex-start; }
+    .step-num { background: var(--mauve); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .step-content h4 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--plum); margin-bottom: 4px; }
+    .step-content p { font-size: 0.88rem; color: #6b4158; line-height: 1.65; }
+
+    /* REVIEWS */
+    .social-proof { background: #f5ece8; padding: 80px 80px; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .review-card { background: white; border-radius: 16px; padding: 28px; box-shadow: 0 2px 16px rgba(61,26,43,0.06); }
+    .stars { color: var(--gold); font-size: 1rem; margin-bottom: 14px; letter-spacing: 2px; }
+    .review-text { font-size: 0.92rem; color: var(--plum-light); line-height: 1.7; font-style: italic; margin-bottom: 18px; }
+    .reviewer { font-size: 0.82rem; font-weight: 600; color: var(--plum); letter-spacing: 0.04em; }
+
+    /* INFO BAR */
+    .info-bar { background: var(--plum); display: grid; grid-template-columns: repeat(4, 1fr); }
+    .info-item { padding: 40px 32px; border-right: 1px solid rgba(253,246,238,0.1); color: var(--cream); }
+    .info-item:last-child { border-right: none; }
+    .info-item-icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .info-item h4 { font-family: 'Playfair Display', serif; font-size: 1rem; margin-bottom: 6px; }
+    .info-item p { font-size: 0.83rem; opacity: 0.65; line-height: 1.6; font-weight: 300; }
+    .info-item a { color: var(--mauve); text-decoration: none; }
+
+    /* FOOTER */
+    footer { background: #2A1019; padding: 60px 80px 40px; }
+    .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; margin-bottom: 48px; }
+    .footer-brand .nav-logo { font-size: 1.5rem; margin-bottom: 16px; display: block; }
+    .footer-brand p { font-size: 0.88rem; color: rgba(253,246,238,0.55); line-height: 1.75; font-weight: 300; }
+    .footer-col h5 { font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mauve); font-weight: 600; margin-bottom: 18px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { font-size: 0.88rem; color: rgba(253,246,238,0.6); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--cream); }
+    .footer-bottom { border-top: 1px solid rgba(253,246,238,0.1); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-bottom p { font-size: 0.8rem; color: rgba(253,246,238,0.35); }
+    .social-links { display: flex; gap: 16px; }
+    .social-links a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(253,246,238,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: rgba(253,246,238,0.6); text-decoration: none; transition: all 0.2s; }
+    .social-links a:hover { background: var(--mauve); border-color: var(--mauve); color: white; }
+
+    /* FACEBOOK FEED */
+    .fb-feed-section {
+      padding: 80px;
+      background: #f5ece8;
+    }
+    .fb-feed-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .fb-feed-left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: var(--plum);
+      margin-bottom: 16px;
+    }
+    .fb-feed-left p {
+      font-size: 0.95rem;
+      color: #6b4158;
+      line-height: 1.75;
+      margin-bottom: 28px;
+      font-weight: 300;
+    }
+    .fb-follow-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #1877F2;
+      color: white;
+      padding: 14px 28px;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .fb-follow-btn:hover { background: #1565d8; transform: translateY(-2px); }
+    .fb-feed-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .fb-embed-wrap {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(61,26,43,0.12);
+      width: 100%;
+      max-width: 500px;
+      background: white;
+    }
+    .fb-embed-wrap iframe {
+      display: block;
+      border: none;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .fb-feed-section { padding: 60px 28px; }
+      .fb-feed-inner { grid-template-columns: 1fr; gap: 36px; }
+    }
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 60px 28px; }
+      .hero-right { min-height: 320px; }
+      .slideshow-track { padding: 0 24px; }
+      .slide { flex: 0 0 85%; }
+      .services, .print-shop { padding: 60px 28px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .merch-highlight { grid-template-columns: 1fr; padding: 60px 28px; gap: 40px; }
+      .merch-visual { height: 260px; }
+      .print-layout { grid-template-columns: 1fr; }
+      .print-visual { height: 280px; }
+      .social-proof { padding: 60px 28px; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .info-bar { grid-template-columns: 1fr 1fr; }
+      .info-item { border-right: none; border-bottom: 1px solid rgba(253,246,238,0.1); }
+      footer { padding: 48px 28px 32px; }
+      .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="fb-root"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">The <span>Vintage Tulip</span> & Local Merch</div>
+  <ul class="nav-links">
+    <li><a href="#boutique">Boutique</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#merch">Local Merch</a></li>
+    <li><a href="#print">Screen Printing</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#follow">Follow Us</a></li>
+    <li><a href="tel:4058754611" class="nav-cta">Call Us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Blanchard, Oklahoma · Est. 2018</p>
+    <h1 class="hero-headline">
+      Sass, style,<br />&amp; <em>something</em><br />for everyone.
+    </h1>
+    <p class="hero-sub">
+      A boutique with personality. Custom screen printing for your school,
+      team, or brand. Local merch that makes Oklahoma proud.
+    </p>
+    <div class="hero-actions">
+      <a href="#gallery" class="btn-primary">See Our Latest</a>
+      <a href="#print" class="btn-outline">Get Custom Prints</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="tulip-bg">
+      <svg viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M100 280 L100 140" stroke="#FDF6EE" stroke-width="5" stroke-linecap="round"/>
+        <path d="M100 200 Q60 180 50 150 Q80 165 100 185" fill="#FDF6EE"/>
+        <path d="M100 200 Q140 180 150 150 Q120 165 100 185" fill="#FDF6EE"/>
+        <path d="M100 140 Q85 90 90 50 Q100 20 100 20 Q100 20 110 50 Q115 90 100 140Z" fill="#FDF6EE"/>
+        <path d="M95 140 Q60 100 55 65 Q70 55 85 80 Q92 110 95 140Z" fill="#FDF6EE"/>
+        <path d="M105 140 Q140 100 145 65 Q130 55 115 80 Q108 110 105 140Z" fill="#FDF6EE"/>
+        <path d="M88 138 Q40 115 30 80 Q48 65 70 90 Q82 115 88 138Z" fill="#FDF6EE" opacity="0.6"/>
+        <path d="M112 138 Q160 115 170 80 Q152 65 130 90 Q118 115 112 138Z" fill="#FDF6EE" opacity="0.6"/>
+      </svg>
+    </div>
+    <div class="hero-card-stack">
+      <div class="hero-card">
+        <div class="hero-card-icon">🌷</div>
+        <h3>Boutique Shopping</h3>
+        <p>Curated women's fashion with personality — prices that don't break the bank.</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">👕</div>
+        <h3>Custom Screen Printing</h3>
+        <p>Graf-ik Screen Printing in-house — schools, teams, clubs & events welcome.</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">📍</div>
+        <h3>111 N. Main, Blanchard OK</h3>
+        <p>Open now · Curbside pickup available · (405) 875-4611</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PHOTO SLIDESHOW -->
+<section class="slideshow-section" id="gallery">
+  <div class="slideshow-header">
+    <p class="section-label">From Our Store</p>
+    <h2>Fresh looks, in stock now.</h2>
+  </div>
+
+  <div class="slideshow-track-wrap">
+    <div class="slideshow-track" id="slideshowTrack">
+      <div class="slide">
+        <img src="tulip_1.jpg" alt="Lions spirit tee and trucker hat" />
+        <div class="slide-caption">Lions Spirit Wear — Tees & Hats</div>
+      </div>
+      <div class="slide">
+        <img src="tulip2.jpg" alt="Sassy Statue of Liberty graphic tee" />
+        <div class="slide-caption">Graphic Tees with Attitude</div>
+      </div>
+      <div class="slide">
+        <img src="tulip3.jpg" alt="Boutique jewelry — earrings and bracelet" />
+        <div class="slide-caption">Boutique Jewelry & Accessories</div>
+      </div>
+      <div class="slide">
+        <img src="tulip5.jpg" alt="Kids holiday graphic tees" />
+        <div class="slide-caption">Kids Tees — Holiday & Everyday</div>
+      </div>
+      <div class="slide">
+        <img src="tulip6.jpg" alt="Blanchard B hats in multiple colors" />
+        <div class="slide-caption">Blanchard Snapbacks — All Colors</div>
+      </div>
+      <div class="slide">
+        <img src="tulpi7.jpg" alt="Blanchard Lions Est. 1907 crewneck sweatshirt" />
+        <div class="slide-caption">Blanchard Lions Est. 1907 Crewneck</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slideshow-controls">
+    <button class="slide-btn" id="prevBtn" aria-label="Previous">&#8592;</button>
+    <div class="slide-dots" id="slideDots"></div>
+    <button class="slide-btn" id="nextBtn" aria-label="Next">&#8594;</button>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="boutique">
+  <p class="section-label">What We Offer</p>
+  <h2 class="section-title">Three reasons to visit us first.</h2>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-img service-img-boutique">🛍️</div>
+      <div class="service-body">
+        <h3>The Boutique</h3>
+        <p>Women's fashion with sass and soul. From everyday wear to statement pieces, we curate styles that bring out your best — all at prices that make sense.</p>
+        <a href="#contact" class="service-link">Visit us in store →</a>
+      </div>
+    </div>
+    <div class="service-card" id="merch">
+      <div class="service-img service-img-merch">🏷️</div>
+      <div class="service-body">
+        <h3>Local Merch</h3>
+        <p>Proudly Oklahoma. We carry local and regional brands — the kind of gear that tells the world where you're from without saying a word.</p>
+        <a href="#merch-brands" class="service-link">See featured brands →</a>
+      </div>
+    </div>
+    <div class="service-card" id="print">
+      <div class="service-img service-img-print">🖨️</div>
+      <div class="service-body">
+        <h3>Graf-ik Screen Printing</h3>
+        <p>Your school logo on premium apparel. Your team's colors on game-day tees. Our in-house print shop handles custom orders for orgs of any size.</p>
+        <a href="#printing" class="service-link">Start a custom order →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MERCH HIGHLIGHT -->
+<section class="merch-highlight" id="merch-brands">
+  <div>
+    <p class="section-label">Local & Regional Brands</p>
+    <h2 class="section-title">Wear what makes Oklahoma proud.</h2>
+    <p class="merch-desc">
+      We stock brands that mean something here. Whether you bleed maroon and gold,
+      love the land, or just want gear that's made with heart — you'll find it
+      on our shelves. Ask about getting your school's logo on any of these brands.
+    </p>
+    <div class="brand-tags">
+      <span class="brand-tag">Okie Brand</span>
+      <span class="brand-tag">Blanchard Lions</span>
+      <span class="brand-tag">School Spirit Wear</span>
+      <span class="brand-tag">Custom Logos</span>
+      <span class="brand-tag">Team Apparel</span>
+      <span class="brand-tag">Oklahoma Pride</span>
+    </div>
+    <a href="tel:4058754611" class="btn-primary" style="background:var(--mauve);">Call to Order Custom Merch</a>
+  </div>
+  <div class="merch-visual">
+    <div class="merch-tile tall">👕</div>
+    <div class="merch-tile">🧢</div>
+    <div class="merch-tile">🧣</div>
+  </div>
+</section>
+
+<!-- PRINT SHOP -->
+<section class="print-shop" id="printing">
+  <div class="print-layout">
+    <div class="print-visual">
+      <div class="print-visual-icon">🖨️</div>
+    </div>
+    <div>
+      <p class="section-label">Graf-ik Screen Printing</p>
+      <h2 class="section-title">Custom printing, right here in-house.</h2>
+      <p style="color:#6b4158;line-height:1.8;margin-bottom:36px;font-weight:300;">
+        No need to go to the city. Our in-house Graf-ik Screen Printing shop
+        handles everything from a few custom tees to a full school's spirit-wear
+        lineup — fast, local, and done right.
+      </p>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Reach Out</h4>
+            <p>Call or email us with your idea — school, team, club, event, or business. We'll talk through what you need.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Choose Your Gear</h4>
+            <p>Pick from tees, hoodies, hats, and more. We'll help you choose the right blanks for your project and budget.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>We Print, You Pick Up</h4>
+            <p>Our team handles the rest. Pick up in store in Blanchard or arrange curbside — no big-city hassle.</p>
+          </div>
+        </div>
+      </div>
+      <a href="mailto:michelleramirez6772@gmail.com" class="btn-primary">Email for a Quote</a>
+    </div>
+  </div>
+</section>
+
+<!-- FACEBOOK FEED -->
+<section class="fb-feed-section" id="follow">
+  <div class="fb-feed-inner">
+    <div class="fb-feed-left">
+      <p class="section-label">Stay in the Loop</p>
+      <h2>Follow us on Facebook</h2>
+      <p>
+        New arrivals, custom print previews, sale announcements, and a little
+        Oklahoma sass — it all lives on our Facebook page. Follow along so you
+        never miss a drop.
+      </p>
+      <a href="https://www.facebook.com/vintagetulip/" target="_blank" class="fb-follow-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        Follow @vintagetulip
+      </a>
+    </div>
+    <div class="fb-feed-right">
+      <div class="fb-embed-wrap">
+        <div
+          class="fb-page"
+          data-href="https://www.facebook.com/vintagetulip/"
+          data-tabs="timeline"
+          data-width="500"
+          data-height="600"
+          data-small-header="true"
+          data-adapt-container-width="true"
+          data-hide-cover="false"
+          data-show-facepile="false">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="social-proof">
+  <p class="section-label">From Our Customers</p>
+  <h2 class="section-title" style="font-family:'Playfair Display',serif;font-size:2.2rem;color:var(--plum);margin-bottom:0;">100% recommend. Every time.</h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"A cute boutique with lots of sass and a little something for everyone. The service is friendly and the prices are fantastic."</p>
+      <p class="reviewer">— Chickasaw Country Review</p>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Ordered custom shirts for our school team and they turned out amazing. So easy to work with — and we didn't have to drive to OKC!"</p>
+      <p class="reviewer">— Local School Coach</p>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <p class="review-text">"Love that they carry Okie brands and local merch. It feels like shopping somewhere that actually cares about our community."</p>
+      <p class="reviewer">— Regular Customer</p>
+    </div>
+  </div>
+</section>
+
+<!-- INFO BAR -->
+<section class="info-bar" id="contact">
+  <div class="info-item">
+    <div class="info-item-icon">📍</div>
+    <h4>Find Us</h4>
+    <p>111 North Main<br />Blanchard, OK<br />United States</p>
+  </div>
+  <div class="info-item">
+    <div class="info-item-icon">📞</div>
+    <h4>Call or Text</h4>
+    <p><a href="tel:4058754611">(405) 875-4611</a><br />We'd love to hear from you</p>
+  </div>
+  <div class="info-item">
+    <div class="info-item-icon">✉️</div>
+    <h4>Email Us</h4>
+    <p><a href="mailto:michelleramirez6772@gmail.com">michelleramirez6772<br />@gmail.com</a></p>
+  </div>
+  <div class="info-item">
+    <div class="info-item-icon">🚗</div>
+    <h4>Curbside Available</h4>
+    <p>Call ahead and we'll bring your order right out to you. Open now!</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <span class="nav-logo">The <span>Vintage Tulip</span> & Local Merch</span>
+      <p>Boutique fashion, local merch, and custom screen printing in the heart of Blanchard, Oklahoma. Friendly service, fantastic prices — always.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Shop</h5>
+      <ul>
+        <li><a href="#boutique">Women's Boutique</a></li>
+        <li><a href="#gallery">Photo Gallery</a></li>
+        <li><a href="#merch-brands">Local Merch</a></li>
+        <li><a href="#printing">Custom Screen Printing</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Connect</h5>
+      <ul>
+        <li><a href="https://www.facebook.com/vintagetulip/" target="_blank">Facebook</a></li>
+        <li><a href="tel:4058754611">(405) 875-4611</a></li>
+        <li><a href="mailto:michelleramirez6772@gmail.com">Email Us</a></li>
+        <li><a href="#contact">111 N. Main, Blanchard OK</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 The Vintage Tulip & Local Merch · Blanchard, OK</p>
+    <div class="social-links">
+      <a href="https://www.facebook.com/vintagetulip/" target="_blank" title="Facebook">f</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const track = document.getElementById('slideshowTrack');
+  const slides = track.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('slideDots');
+  const total = slides.length;
+  const visible = window.innerWidth < 900 ? 1 : 3;
+  let current = 0;
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  }
+
+  function goTo(index) {
+    const vis = window.innerWidth < 900 ? 1 : 3;
+    const max = total - vis;
+    current = Math.max(0, Math.min(index, max));
+    const slideWidth = slides[0].offsetWidth + 20;
+    track.style.transform = `translateX(-${current * slideWidth}px)`;
+    dotsContainer.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+
+  // Auto-advance every 4s
+  setInterval(() => {
+    const vis = window.innerWidth < 900 ? 1 : 3;
+    goTo(current + 1 < total - vis + 1 ? current + 1 : 0);
+  }, 4000);
+
+  window.addEventListener('resize', () => goTo(current));
+</script>
+</body>
+</html>
